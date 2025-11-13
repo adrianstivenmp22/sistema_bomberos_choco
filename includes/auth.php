@@ -40,4 +40,16 @@ function determinarGravedad($tipo) {
     ];
     return $gravedades[$tipo] ?? 'media';
 }
+
+function isOperador() {
+    return isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'operador';
+}
+
+// Función para verificar nuevas emergencias
+function checkNewEmergencies($db) {
+    $sql = "SELECT COUNT(*) as total FROM emergencias 
+            WHERE estado = 'reportada' AND DATE(fecha_reporte) = CURDATE()";
+    $result = $db->query($sql);
+    return $result->fetch_assoc()['total'];
+}
 ?>

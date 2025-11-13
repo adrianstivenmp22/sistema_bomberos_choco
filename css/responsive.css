@@ -1,0 +1,219 @@
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Dispositivos pequeños (teléfonos, menos de 576px) */
+@media (max-width: 575.98px) {
+    .container {
+        padding: var(--spacing-sm);
+    }
+    
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.1rem; }
+    
+    .card {
+        padding: var(--spacing-md);
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .emergency-actions,
+    .reporte-actions {
+        flex-direction: column;
+    }
+    
+    .emergency-actions .btn,
+    .reporte-actions .btn {
+        width: 100%;
+    }
+    
+    .data-table {
+        font-size: 0.8rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .modal-content {
+        margin: 10% auto;
+        width: 95%;
+        padding: var(--spacing-md);
+    }
+}
+
+/* Dispositivos medianos (tablets, 576px - 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+    .container {
+        padding: var(--spacing-md);
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bomberos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Dispositivos grandes (desktops, 768px - 992px) */
+@media (min-width: 768px) and (max-width: 992px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .bomberos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+}
+
+/* Dispositivos extra grandes (large desktops, 992px y más) */
+@media (min-width: 992px) {
+    .container {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* ===== ORIENTACIÓN ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+    .header {
+        padding: var(--spacing-sm) 0;
+    }
+    
+    .logo h1 {
+        font-size: 1.25rem;
+    }
+    
+    .card {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+}
+
+/* ===== IMPRESIÓN ===== */
+@media print {
+    .header,
+    .nav-menu,
+    .emergency-actions,
+    .reporte-actions,
+    .bombero-actions,
+    .btn {
+        display: none !important;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* ===== ACCESIBILIDAD ===== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #000000;
+        --secondary-color: #333333;
+        --success-color: #006600;
+        --warning-color: #663300;
+        --danger-color: #660000;
+        --info-color: #006666;
+    }
+    
+    .card {
+        border: 2px solid #000;
+    }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --light-color: #2b2b2b;
+        --dark-color: #f8f9fa;
+    }
+    
+    body {
+        background-color: #1a1a1a;
+        color: #f8f9fa;
+    }
+    
+    .card {
+        background-color: #2b2b2b;
+        border-color: #444;
+    }
+    
+    .data-table {
+        background-color: #2b2b2b;
+        color: #f8f9fa;
+    }
+    
+    .data-table th {
+        background-color: #333;
+        color: #f8f9fa;
+    }
+    
+    .data-table tr:hover {
+        background-color: #333;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        background-color: #333;
+        border-color: #555;
+        color: #f8f9fa;
+    }
+    
+    .alert-success {
+        background-color: #1e3a28;
+        border-color: #2d4a3a;
+        color: #90ee90;
+    }
+    
+    .alert-danger {
+        background-color: #3a1e1e;
+        border-color: #4a2d2d;
+        color: #ff6b6b;
+    }
+    
+    .alert-warning {
+        background-color: #3a321e;
+        border-color: #4a422d;
+        color: #ffd166;
+    }
+    
+    .alert-info {
+        background-color: #1e2e3a;
+        border-color: #2d3e4a;
+        color: #6bc5d2;
+    }
+}
