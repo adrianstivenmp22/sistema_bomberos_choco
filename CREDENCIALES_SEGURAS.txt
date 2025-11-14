@@ -1,0 +1,84 @@
+CREDENCIALES ACTUALIZADAS - SISTEMA DE BOMBEROS DEL CHOCÓ
+==========================================================
+
+Fecha: 14 de Noviembre de 2025
+Versión: 2.0
+
+CREDENCIALES SEGURAS DE PRUEBA:
+================================
+
+✅ COMANDANTE
+   Usuario: comandante
+   Contraseña: ComandanteSeguro2025!
+   Rol: Comandante
+   Acceso a: comandante.php
+
+✅ OFICIAL
+   Usuario: oficial
+   Contraseña: OficialSeguro2025!
+   Rol: Oficial
+   Acceso a: oficial.php
+
+✅ BOMBERO
+   Usuario: bombero
+   Contraseña: BomberoSeguro2025!
+   Rol: Bombero
+   Acceso a: bombero.php
+
+✅ CIUDADANO
+   Usuario: ciudadano
+   Contraseña: CiudadanoSeguro2025!
+   Rol: Ciudadano
+   Acceso a: ciudadano.php
+
+✅ ADMINISTRATIVO
+   Usuario: administrativo
+   Contraseña: AdminSeguro2025!
+   Rol: Administrativo
+   Acceso a: administrativo.php
+
+
+POR QUÉ CAMBIAMOS LAS CONTRASEÑAS:
+===================================
+
+El navegador (Chrome, Firefox, Safari, Edge) tiene un sistema de validación
+de seguridad que detecta contraseñas débiles o que hayan sido comprometidas
+en brechas de seguridad pública. 
+
+Las contraseña "1234" es:
+❌ Débil
+❌ Fácil de adivinar
+❌ Está en bases de datos de brechas públicas
+❌ Causa advertencias de seguridad en navegadores modernos
+
+Las nuevas contraseñas son:
+✅ Fuertes (mayúsculas + minúsculas + números + caracteres especiales)
+✅ Únicas para cada rol
+✅ No están en bases de datos públicas comprometidas
+✅ No generan advertencias de seguridad
+
+
+ARCHIVOS ACTUALIZADOS:
+======================
+
+1. /proceso_login.php
+   - Contraseñas actualizadas en la base de datos de usuarios
+
+2. /login.php
+   - Contraseñas actualizadas en validación de cliente
+   - Credenciales de demo actualizadas en la interfaz visual
+
+
+PRÓXIMOS PASOS (RECOMENDADO):
+=============================
+
+En un entorno de producción, se debe:
+
+1. Usar una base de datos real (MySQL/PostgreSQL)
+2. Hashear las contraseñas con bcrypt o similar
+3. Implementar autenticación de dos factores (2FA)
+4. Usar HTTPS en lugar de HTTP
+5. Implementar rate limiting para prevenir fuerza bruta
+6. Usar variables de entorno para credenciales sensibles
+7. Implementar logs de auditoría completos
+

@@ -280,22 +280,22 @@
                         <div class="col-6">
                             <strong>Comandante:</strong><br>
                             usuario: <span class="text-primary">comandante</span><br>
-                            clave: <span class="text-primary">1234</span>
+                            clave: <span class="text-primary">ComandanteSeguro2025!</span>
                         </div>
                         <div class="col-6">
                             <strong>Oficial:</strong><br>
                             usuario: <span class="text-primary">oficial</span><br>
-                            clave: <span class="text-primary">1234</span>
+                            clave: <span class="text-primary">OficialSeguro2025!</span>
                         </div>
                         <div class="col-6 mt-2">
                             <strong>Bombero:</strong><br>
                             usuario: <span class="text-primary">bombero</span><br>
-                            clave: <span class="text-primary">1234</span>
+                            clave: <span class="text-primary">BomberoSeguro2025!</span>
                         </div>
                         <div class="col-6 mt-2">
                             <strong>Ciudadano:</strong><br>
                             usuario: <span class="text-primary">ciudadano</span><br>
-                            clave: <span class="text-primary">1234</span>
+                            clave: <span class="text-primary">CiudadanoSeguro2025!</span>
                         </div>
                     </div>
                 </div>
@@ -310,31 +310,31 @@
         // Base de datos de usuarios (en un sistema real esto estaría en el backend)
         const usuarios = {
             'comandante': {
-                password: '1234',
+                password: 'ComandanteSeguro2025!',
                 nombre: 'Comandante García',
                 rol: 'comandante',
                 redirect: 'comandante.php'
             },
             'oficial': {
-                password: '1234',
+                password: 'OficialSeguro2025!',
                 nombre: 'Oficial Martínez',
                 rol: 'oficial',
                 redirect: 'oficial.php'
             },
             'bombero': {
-                password: '1234',
+                password: 'BomberoSeguro2025!',
                 nombre: 'Bombero Pérez',
                 rol: 'bombero',
                 redirect: 'bombero.php'
             },
             'ciudadano': {
-                password: '1234',
+                password: 'CiudadanoSeguro2025!',
                 nombre: 'Ciudadano',
                 rol: 'ciudadano',
                 redirect: 'ciudadano.php'
             },
             'administrativo': {
-                password: '1234',
+                password: 'AdminSeguro2025!',
                 nombre: 'Personal Administrativo',
                 rol: 'administrativo',
                 redirect: 'administrativo.php'
@@ -426,17 +426,25 @@
                     body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&rol=${encodeURIComponent(rolSeleccionado)}`
                 })
                 .then(response => {
+                    // Limpiar botón
                     submitBtn.innerHTML = originalHTML;
                     submitBtn.disabled = false;
                     
-                    if (!response.ok) {
-                        return response.json().then(data => {
-                            throw new Error(data.message || 'Error en la autenticación');
-                        });
-                    }
-                    return response.json();
+                    // Log de respuesta para debug
+                    console.log('Response status:', response.status);
+                    console.log('Response ok:', response.ok);
+                    
+                    return response.json().then(data => {
+                        // Si la respuesta no es ok pero tenemos data, lanzar error
+                        if (!response.ok) {
+                            throw new Error(data.message || `Error: ${response.status}`);
+                        }
+                        return data;
+                    });
                 })
                 .then(data => {
+                    console.log('Data received:', data);
+                    
                     if (data.success) {
                         mostrarAlerta(`¡Bienvenido, ${data.usuario.nombre}!`, 'info');
                         
@@ -449,6 +457,7 @@
                     }
                 })
                 .catch(error => {
+                    console.error('Error:', error);
                     submitBtn.innerHTML = originalHTML;
                     submitBtn.disabled = false;
                     mostrarAlerta(error.message || 'Error de conexión', 'error');
@@ -507,9 +516,19 @@
                 }
             });
             
-            // Completar credenciales
+            // Completar credenciales con las nuevas contraseñas seguras
             document.getElementById('username').value = rol;
-            document.getElementById('password').value = '1234';
+            
+            // Mapear contraseñas seguras
+            const contrasenas = {
+                'comandante': 'ComandanteSeguro2025!',
+                'oficial': 'OficialSeguro2025!',
+                'bombero': 'BomberoSeguro2025!',
+                'ciudadano': 'CiudadanoSeguro2025!',
+                'administrativo': 'AdminSeguro2025!'
+            };
+            
+            document.getElementById('password').value = contrasenas[rol] || '';
             
             mostrarAlerta(`Credenciales de ${rol} cargadas. Presione "Iniciar Sesión"`, 'info');
         }

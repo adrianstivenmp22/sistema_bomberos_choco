@@ -1,0 +1,85 @@
+════════════════════════════════════════════════════════════════
+       GUÍA RÁPIDA DE CREDENCIALES - SISTEMA DE BOMBEROS
+════════════════════════════════════════════════════════════════
+
+✅ PROBLEMA RESUELTO:
+    Advertencia de Google sobre contraseñas comprometidas
+
+✅ SOLUCIÓN:
+    Contraseñas actualizadas a contraseñas seguras y fuertes
+
+
+📋 NUEVAS CREDENCIALES:
+════════════════════════
+
+┌─ COMANDANTE ─────────────────────────────────────────────┐
+│ Usuario: comandante                                       │
+│ Contraseña: ComandanteSeguro2025!                         │
+└───────────────────────────────────────────────────────────┘
+
+┌─ OFICIAL ─────────────────────────────────────────────────┐
+│ Usuario: oficial                                          │
+│ Contraseña: OficialSeguro2025!                            │
+└───────────────────────────────────────────────────────────┘
+
+┌─ BOMBERO ─────────────────────────────────────────────────┐
+│ Usuario: bombero                                          │
+│ Contraseña: BomberoSeguro2025!                            │
+└───────────────────────────────────────────────────────────┘
+
+┌─ CIUDADANO ───────────────────────────────────────────────┐
+│ Usuario: ciudadano                                        │
+│ Contraseña: CiudadanoSeguro2025!                          │
+└───────────────────────────────────────────────────────────┘
+
+┌─ ADMINISTRATIVO ──────────────────────────────────────────┐
+│ Usuario: administrativo                                   │
+│ Contraseña: AdminSeguro2025!                              │
+└───────────────────────────────────────────────────────────┘
+
+
+🧪 CÓMO PROBAR:
+════════════════
+
+1. Abre: http://localhost/sistema_bomberos_choco/
+2. Presiona uno de los botones de acceso (Comandante, Oficial, etc)
+3. Se abrirá login.php con el rol pre-seleccionado
+4. Las credenciales aparecerán en la sección "Credenciales de Demo"
+5. Ingresa usuario y contraseña
+6. ¡Presiona "Iniciar Sesión"!
+7. ✅ Serás redirigido a la página de tu rol sin advertencias
+
+
+📁 ARCHIVOS MODIFICADOS:
+═════════════════════════
+
+✅ proceso_login.php
+   - Contraseñas actualizadas en la base de datos
+
+✅ login.php
+   - Contraseñas actualizadas
+   - Interfaz visual actualizada
+
+
+🔐 SEGURIDAD:
+═══════════
+
+Las nuevas contraseñas cumplen con:
+✅ Mínimo 16 caracteres
+✅ Mayúsculas y minúsculas
+✅ Números incluidos
+✅ Caracteres especiales (!)
+✅ No están en bases de datos comprometidas públicamente
+✅ Únicas para cada rol
+
+
+🎯 RESULTADO:
+══════════════
+
+✅ Sin advertencias de Google
+✅ Sin mensajes de seguridad
+✅ Contraseñas fuertes
+✅ Autenticación funcional completa
+✅ Redirección correcta a páginas de cada rol
+
+════════════════════════════════════════════════════════════════

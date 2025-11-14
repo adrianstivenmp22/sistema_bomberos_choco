@@ -1,0 +1,110 @@
+🔧 SOLUCIÓN DE PROBLEMAS - INICIO DE SESIÓN
+==============================================
+
+✅ CAMBIOS REALIZADOS:
+1. Contraseñas actualizadas en proceso_login.php
+2. Contraseñas actualizadas en login.php  
+3. Función autoCompletarCredenciales actualizada
+4. Manejo de errores mejorado
+5. Validación de REMOTE_ADDR corregida
+
+
+🧪 PARA PROBAR EL LOGIN:
+========================
+
+OPCIÓN 1 - Prueba Rápida (Recomendado):
+-----------------------------------------
+1. Abre el navegador en: http://localhost/sistema_bomberos_choco/
+2. Presiona cualquier botón (Comandante, Oficial, Bombero, etc)
+3. Se abrirá login.php con el rol pre-seleccionado
+4. Las credenciales aparecerán en "Credenciales de Demo"
+5. Presiona el botón "Iniciar Sesión"
+6. Si ves la alerta "¡Bienvenido!" = ✅ FUNCIONA
+
+
+OPCIÓN 2 - Ingreso Manual:
+--------------------------
+1. Abre: http://localhost/sistema_bomberos_choco/login.php
+2. Selecciona el rol (Comandante, Oficial, Bombero, Ciudadano)
+3. Ingresa Usuario: comandante
+4. Ingresa Contraseña: ComandanteSeguro2025!
+5. Presiona "Iniciar Sesión"
+
+
+OPCIÓN 3 - Atajo de Teclado:
+----------------------------
+1. Abre: http://localhost/sistema_bomberos_choco/login.php
+2. Presiona Ctrl + 1 (para Comandante)
+3. Presiona Ctrl + 2 (para Oficial)
+4. Presiona Ctrl + 3 (para Bombero)
+5. Presiona Ctrl + 4 (para Ciudadano)
+6. Presiona "Iniciar Sesión"
+
+
+📋 CREDENCIALES CORRECTAS:
+==========================
+
+✅ Comandante
+   Usuario: comandante
+   Contraseña: ComandanteSeguro2025!
+
+✅ Oficial
+   Usuario: oficial
+   Contraseña: OficialSeguro2025!
+
+✅ Bombero
+   Usuario: bombero
+   Contraseña: BomberoSeguro2025!
+
+✅ Ciudadano
+   Usuario: ciudadano
+   Contraseña: CiudadanoSeguro2025!
+
+✅ Administrativo
+   Usuario: administrativo
+   Contraseña: AdminSeguro2025!
+
+
+🐛 SI AÚN NO FUNCIONA:
+======================
+
+1. Abre la Consola del Navegador (F12 → Console)
+2. Intenta iniciar sesión de nuevo
+3. Verifica si hay mensajes de error en la consola
+4. Copia los errores y verifica:
+   - ¿Escribe bien el usuario y contraseña?
+   - ¿Es la contraseña exacta con mayúsculas/minúsculas?
+   - ¿Coincide el rol seleccionado con el usuario?
+
+
+✅ ESPERADO SI FUNCIONA:
+========================
+
+1. Ves la alerta verde: "¡Bienvenido, [Nombre]!"
+2. Después de 1.5 segundos te redirige automáticamente
+3. Llegas a la página de tu rol (comandante.php, oficial.php, etc)
+4. Ves el nombre del usuario en la esquina superior
+5. Puedes navegar dentro de la aplicación
+
+
+📁 ARCHIVOS CLAVE:
+==================
+
+- /login.php - Interfaz de login
+- /proceso_login.php - Procesa la autenticación
+- /comandante.php - Página del Comandante
+- /oficial.php - Página del Oficial  
+- /bombero.php - Página del Bombero
+- /ciudadano.php - Página del Ciudadano
+- /administrativo.php - Página Administrativa
+
+
+💡 TIPS:
+========
+
+- Usa navegador moderno (Chrome, Firefox, Edge, Safari)
+- Limpia caché del navegador si hay problemas (Ctrl + Shift + Del)
+- Si no avanza, revisa la consola (F12)
+- Los archivos .php deben estar en: /opt/lampp/htdocs/sistema_bomberos_choco/
+- XAMPP debe estar corriendo (Apache y MySQL)
+

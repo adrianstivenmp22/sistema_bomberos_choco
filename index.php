@@ -293,7 +293,7 @@
                     Seleccione su rol para acceder a las herramientas específicas de gestión y coordinación
                 </p>
                 <div class="mt-4">
-                    <a href="login.php" class="btn btn-primary btn-lg">
+                    <a href="login_nuevo.php" class="btn btn-primary btn-lg">
                         <i class="fas fa-sign-in-alt me-2"></i>
                         Ir al Login
                     </a>
@@ -647,7 +647,7 @@
             // Redirigir al login después de un breve retardo
             setTimeout(() => {
                 cerrarTransicion();
-                window.location.href = 'login.php?rol=' + encodeURIComponent(rol);
+                window.location.href = 'login_nuevo.php';
             }, 800);
         }
 

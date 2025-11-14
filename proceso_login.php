@@ -13,31 +13,31 @@ $rol = isset($_POST['rol']) ? trim($_POST['rol']) : '';
 // Base de datos de usuarios (en producción esto sería una BD real)
 $usuarios = [
     'comandante' => [
-        'password' => '1234',
+        'password' => 'ComandanteSeguro2025!',
         'nombre' => 'Comandante García',
         'rol' => 'comandante',
         'email' => 'comandante@bomberos.com'
     ],
     'oficial' => [
-        'password' => '1234',
+        'password' => 'OficialSeguro2025!',
         'nombre' => 'Oficial Martínez',
         'rol' => 'oficial',
         'email' => 'oficial@bomberos.com'
     ],
     'bombero' => [
-        'password' => '1234',
+        'password' => 'BomberoSeguro2025!',
         'nombre' => 'Bombero Pérez',
         'rol' => 'bombero',
         'email' => 'bombero@bomberos.com'
     ],
     'ciudadano' => [
-        'password' => '1234',
+        'password' => 'CiudadanoSeguro2025!',
         'nombre' => 'Ciudadano',
         'rol' => 'ciudadano',
         'email' => 'ciudadano@email.com'
     ],
     'administrativo' => [
-        'password' => '1234',
+        'password' => 'AdminSeguro2025!',
         'nombre' => 'Personal Administrativo',
         'rol' => 'administrativo',
         'email' => 'admin@bomberos.com'
@@ -93,7 +93,7 @@ $_SESSION['usuario'] = [
     'email' => $usuario_data['email'],
     'usuario' => $username,
     'login_time' => time(),
-    'ip_address' => $_SERVER['REMOTE_ADDR']
+    'ip_address' => $_SERVER['REMOTE_ADDR'] ?? 'localhost'
 ];
 
 // Determinar página de redirección
