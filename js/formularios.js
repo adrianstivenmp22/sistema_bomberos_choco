@@ -307,3 +307,86 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = Formularios;
 }
+// formularios.js - Sistema de Bomberos
+class FormulariosBomberos {
+    constructor() {
+        this.formularios = {};
+        this.inicializarFormularios();
+        this.configurarEventos();
+    }
+
+    inicializarFormularios() {
+        this.formularios = {
+            incidente: {
+                id: 'formIncidente',
+                campos: {
+                    tipo_emergencia: { requerido: true, tipo: 'select' },
+                    ubicacion: { requerido: true, tipo: 'texto', minLength: 5 },
+                    descripcion: { requerido: true, tipo: 'texto', minLength: 10 },
+                    prioridad: { requerido: true, tipo: 'select' },
+                    unidades_asignadas: { requerido: false, tipo: 'checkbox' }
+                }
+            },
+            intervencion: {
+                id: 'formIntervencion',
+                campos: {
+                    bombero_id: { requerido: true, tipo: 'select' },
+                    equipo_utilizado: { requerido: true, tipo: 'texto' },
+                    tiempo_intervencion: { requerido: true, tipo: 'number' },
+                    observaciones: { requerido: false, tipo: 'texto' }
+                }
+            },
+            equipo: {
+                id: 'formEquipo',
+                campos: {
+                    tipo_equipo: { requerido: true, tipo: 'select' },
+                    estado: { requerido: true, tipo: 'select' },
+                    mantenimiento: { requerido: false, tipo: 'date' }
+                }
+            }
+        };
+    }
+
+    configurarEventos() {
+        // Configuración específica para bomberos
+        this.configurarFormularioIncidente();
+        this.configurarFormularioIntervencion();
+    }
+
+    configurarFormularioIncidente() {
+        const form = document.getElementById('formIncidente');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                this.procesarIncidente(e);
+            });
+        }
+    }
+
+    async procesarIncidente(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        
+        // Simular envío a sistema de bomberos
+        try {
+            await this.enviarIncidenteSistema(formData);
+            this.mostrarMensaje('Incidente reportado correctamente', 'success');
+        } catch (error) {
+            this.mostrarMensaje('Error al reportar incidente', 'error');
+        }
+    }
+
+    async enviarIncidenteSistema(data) {
+        // Simular API de bomberos
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('Incidente enviado al sistema:', data);
+                resolve();
+            }, 2000);
+        });
+    }
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    new FormulariosBomberos();
+});

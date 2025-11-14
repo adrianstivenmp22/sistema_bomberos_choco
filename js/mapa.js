@@ -446,3 +446,72 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = MapaInteractivo;
 }
+// mapa.js - Sistema de Bomberos
+class MapaBomberos {
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.emergencias = [];
+        this.unidades = [];
+        this.inicializarMapa();
+    }
+
+    inicializarMapa() {
+        // Simulación de mapa para bomberos
+        this.crearMapaInteractivo();
+        this.cargarEmergenciasActivas();
+        this.cargarUnidadesActivas();
+    }
+
+    crearMapaInteractivo() {
+        this.container.innerHTML = `
+            <div class="mapa-bomberos">
+                <div class="controles-mapa">
+                    <button onclick="mapaBomberos.actualizarVista()">Actualizar</button>
+                    <button onclick="mapaBomberos.mostrarTodasEmergencias()">Ver Emergencias</button>
+                    <button onclick="mapaBomberos.mostrarTodasUnidades()">Ver Unidades</button>
+                </div>
+                <div class="vista-mapa">
+                    <!-- Aquí iría el mapa real con Leaflet/Google Maps -->
+                    <div class="mapa-simulado">
+                        <h3>Mapa Operativo - Sistema de Bomberos</h3>
+                        <div id="puntos-mapa"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    cargarEmergenciasActivas() {
+        // Simular datos de emergencias
+        this.emergencias = [
+            { id: 1, tipo: 'Incendio', ubicacion: 'Zona Centro', prioridad: 'Alta' },
+            { id: 2, tipo: 'Accidente', ubicacion: 'Av. Principal', prioridad: 'Media' }
+        ];
+        this.mostrarEmergenciasMapa();
+    }
+
+    cargarUnidadesActivas() {
+        // Simular datos de unidades
+        this.unidades = [
+            { id: 1, tipo: 'URB', ubicacion: 'Estación Central', estado: 'Activa' },
+            { id: 2, tipo: 'Escalera', ubicacion: 'Zona Norte', estado: 'En camino' }
+        ];
+        this.mostrarUnidadesMapa();
+    }
+
+    mostrarEmergenciasMapa() {
+        const contenedor = document.getElementById('puntos-mapa');
+        this.emergencias.forEach(emergencia => {
+            const punto = document.createElement('div');
+            punto.className = 'punto-emergencia';
+            punto.innerHTML = `🚨 ${emergencia.tipo} - ${emergencia.ubicacion}`;
+            contenedor.appendChild(punto);
+        });
+    }
+}
+
+// Inicializar mapa de bomberos
+let mapaBomberos;
+document.addEventListener('DOMContentLoaded', () => {
+    mapaBomberos = new MapaBomberos('map');
+});

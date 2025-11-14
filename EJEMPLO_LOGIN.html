@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Autenticación - Sistema Bomberos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-section i {
+            font-size: 3rem;
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+        
+        .logo-section h1 {
+            color: #1f2937;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .logo-section p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-control {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3);
+            color: white;
+        }
+        
+        .demo-roles {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .demo-roles h5 {
+            color: #374151;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .role-btn {
+            width: 100%;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .role-btn:hover {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+        
+        .role-btn.ciudadano {
+            border-left: 4px solid #ea580c;
+        }
+        
+        .role-btn.bombero {
+            border-left: 4px solid #16a34a;
+        }
+        
+        .role-btn.oficial {
+            border-left: 4px solid #2563eb;
+        }
+        
+        .role-btn.comandante {
+            border-left: 4px solid #dc2626;
+        }
+        
+        .role-btn.administrativo {
+            border-left: 4px solid #7c3aed;
+        }
+        
+        .alert {
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #1e40af;
+        }
+        
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #dc2626;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logo -->
+        <div class="logo-section">
+            <i class="fas fa-fire-extinguisher"></i>
+            <h1>Sistema Bomberos</h1>
+            <p>Chocó - Acceso Seguro</p>
+        </div>
+
+        <!-- Alert para mensajes -->
+        <div id="alertContainer"></div>
+
+        <!-- Formulario de Login -->
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label class="form-label" for="username">
+                    <i class="fas fa-user me-2"></i>Usuario
+                </label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="username" 
+                    placeholder="Ingrese su usuario"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">
+                    <i class="fas fa-lock me-2"></i>Contraseña
+                </label>
+                <input 
+                    type="password" 
+                    class="form-control" 
+                    id="password" 
+                    placeholder="Ingrese su contraseña"
+                    required
+                >
+            </div>
+
+            <div class="form-group form-check">
+                <input 
+                    type="checkbox" 
+                    class="form-check-input" 
+                    id="rememberMe"
+                >
+                <label class="form-check-label" for="rememberMe">
+                    Recuérdame en este dispositivo
+                </label>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+            </button>
+        </form>
+
+        <!-- Demo Roles -->
+        <div class="demo-roles">
+            <h5>
+                <i class="fas fa-shield-alt me-2"></i>
+                Pruebas Rápidas por Rol
+            </h5>
+            
+            <button class="role-btn ciudadano" onclick="loginDemo('ciudadano', 'Juan García', 'ciudadano_user')">
+                <i class="fas fa-user me-2"></i>
+                Ciudadano
+            </button>
+            
+            <button class="role-btn bombero" onclick="loginDemo('bombero', 'Carlos Pérez', 'bombero_user')">
+                <i class="fas fa-firefighter me-2"></i>
+                Bombero
+            </button>
+            
+            <button class="role-btn oficial" onclick="loginDemo('oficial', 'María García', 'oficial_user')">
+                <i class="fas fa-user-tie me-2"></i>
+                Oficial
+            </button>
+            
+            <button class="role-btn comandante" onclick="loginDemo('comandante', 'Luis López', 'comandante_user')">
+                <i class="fas fa-crown me-2"></i>
+                Comandante
+            </button>
+            
+            <button class="role-btn administrativo" onclick="loginDemo('administrativo', 'Ana Martínez', 'admin_user')">
+                <i class="fas fa-cog me-2"></i>
+                Administrativo
+            </button>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <strong><i class="fas fa-info-circle me-2"></i>Información</strong>
+            Este sistema usa <code>sessionStorage</code> para almacenar la sesión del cliente 
+            y <code>$_SESSION</code> en el servidor para validación adicional.
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        /**
+         * Manejar el login del formulario
+         */
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            // Aquí normalmente iría una petición AJAX al servidor
+            // Por ahora mostramos un ejemplo
+            
+            showAlert('⚠️ En producción, esto se validaría en el servidor', 'warning');
+            
+            // Simular validación
+            console.log('Login attempt:', {
+                username,
+                password: '***',
+                rememberMe
+            });
+        }
+
+        /**
+         * Login de demostración por rol
+         */
+        function loginDemo(rol, nombre, username) {
+            // Crear objeto de usuario
+            const usuario = {
+                id: Math.floor(Math.random() * 1000),
+                username: username,
+                rol: rol,
+                nombre_completo: nombre,
+                email: username + '@bomberos.gov.co',
+                timestamp: new Date().toISOString()
+            };
+
+            // Guardar en sessionStorage
+            sessionStorage.setItem('usuarioLogueado', JSON.stringify(usuario));
+            
+            // Mostrar confirmación
+            showAlert(
+                `✅ Sesión iniciada como <strong>${nombre}</strong><br>
+                Rol: <code>${rol}</code><br>
+                Redirigiendo a ${rol}.php...`,
+                'success'
+            );
+            
+            // Simular redirección (comentado para desarrollo)
+            console.log('Usuario logueado:', usuario);
+            console.log('sessionStorage actualizado');
+            
+            // Descomentar en producción:
+            // setTimeout(() => {
+            //     window.location.href = rol + '.php';
+            // }, 2000);
+            
+            // Para demostración, mostrar los datos
+            console.log('Datos en sessionStorage:');
+            console.log(JSON.parse(sessionStorage.getItem('usuarioLogueado')));
+        }
+
+        /**
+         * Mostrar alertas
+         */
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertId = 'alert-' + Date.now();
+            
+            const alertHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert" id="${alertId}">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            alertContainer.innerHTML = alertHTML;
+            
+            // Auto-dismiss después de 5 segundos
+            setTimeout(() => {
+                const alert = document.getElementById(alertId);
+                if (alert) {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }
+            }, 5000);
+        }
+
+        /**
+         * Verificar sesión al cargar
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuarioLogueado = sessionStorage.getItem('usuarioLogueado');
+            
+            if (usuarioLogueado) {
+                const usuario = JSON.parse(usuarioLogueado);
+                showAlert(
+                    `ℹ️ Ya hay una sesión activa para <strong>${usuario.nombre_completo}</strong><br>
+                    <a href="javascript:cerrarSesion()" class="alert-link">Cerrar sesión</a>`,
+                    'info'
+                );
+            }
+        });
+
+        /**
+         * Cerrar sesión
+         */
+        function cerrarSesion() {
+            sessionStorage.removeItem('usuarioLogueado');
+            showAlert('✅ Sesión cerrada correctamente', 'success');
+            location.reload();
+        }
+
+        /**
+         * Verificar credenciales de ejemplo
+         * En producción, esto sería en el servidor
+         */
+        function verificarCredenciales(username, password) {
+            // Base de datos de ejemplo (NUNCA hacer esto en producción)
+            const usuarios = {
+                'ciudadano': { password: 'ciudadano123', rol: 'ciudadano', nombre: 'Juan García' },
+                'bombero': { password: 'bombero123', rol: 'bombero', nombre: 'Carlos Pérez' },
+                'oficial': { password: 'oficial123', rol: 'oficial', nombre: 'María García' },
+                'comandante': { password: 'comandante123', rol: 'comandante', nombre: 'Luis López' },
+                'admin': { password: 'admin123', rol: 'administrativo', nombre: 'Ana Martínez' }
+            };
+
+            if (usuarios[username] && usuarios[username].password === password) {
+                return {
+                    id: Math.floor(Math.random() * 1000),
+                    username: username,
+                    rol: usuarios[username].rol,
+                    nombre_completo: usuarios[username].nombre,
+                    email: username + '@bomberos.gov.co'
+                };
+            }
+
+            return null;
+        }
+
+        /**
+         * Consola de desarrollador
+         */
+        console.log('%c🔐 SISTEMA DE AUTENTICACIÓN - DEMO', 'color: #dc2626; font-size: 16px; font-weight: bold;');
+        console.log('%cComandos disponibles en consola:', 'color: #2563eb; font-weight: bold;');
+        console.log('  • loginDemo("rol", "nombre", "username")');
+        console.log('  • cerrarSesion()');
+        console.log('  • sessionStorage.getItem("usuarioLogueado")');
+        console.log('  • sessionStorage.clear()');
+    </script>
+</body>
+</html>
