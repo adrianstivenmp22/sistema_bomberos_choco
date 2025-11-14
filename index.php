@@ -292,6 +292,12 @@
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto">
                     Seleccione su rol para acceder a las herramientas específicas de gestión y coordinación
                 </p>
+                <div class="mt-4">
+                    <a href="login.php" class="btn btn-primary btn-lg">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Ir al Login
+                    </a>
+                </div>
             </div>
 
             <div class="row g-4">
@@ -575,45 +581,57 @@
     
     <script>
         // Funciones de acceso al sistema
-        // Nota: estas funciones muestran un modal breve y luego redirigen
-        // a la página correspondiente del actor (archivo .php en la raíz).
-        function accederComoComandante() { mostrarAcceso('Comandante', 'comandante'); }
-        function accederComoOficial()    { mostrarAcceso('Oficial', 'oficial'); }
-        function accederComoBombero()    { mostrarAcceso('Bombero', 'bombero'); }
-        function accederComoAdministrativo() { mostrarAcceso('Personal Administrativo', 'administrativo'); }
-        function accederComoCiudadano()  { mostrarAcceso('Ciudadano', 'ciudadano'); }
+        // Nota: estas funciones redirigen al login con el rol seleccionado
+        function accederComoComandante() { irAlLogin('comandante'); }
+        function accederComoOficial()    { irAlLogin('oficial'); }
+        function accederComoBombero()    { irAlLogin('bombero'); }
+        function accederComoAdministrativo() { irAlLogin('administrativo'); }
+        function accederComoCiudadano()  { irAlLogin('ciudadano'); }
 
-        function mostrarAcceso(rol, tipo) {
-            // Mapping de tipo a página destino
-            const pageMap = {
-                'comandante': 'comandante.php',
-                'oficial': 'oficial.php',
-                'bombero': 'bombero.php',
-                'administrativo': 'administrativo.php',
-                'ciudadano': 'ciudadano.php'
-            };
-
-            // Crear modal simple (no dependemos de inicializar bootstrap JS)
+        function irAlLogin(rol) {
+            // Guardar el rol seleccionado en sessionStorage
+            sessionStorage.setItem('rolSeleccionado', rol);
+            
+            // Mostrar modal de transición
             const modal = document.createElement('div');
             modal.className = 'modal fade show d-block';
-            modal.id = 'accesoModal';
+            modal.id = 'transicionModal';
             modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-            const colorClass = (tipo === 'comandante') ? 'red' : (tipo === 'oficial') ? 'blue' : (tipo === 'bombero') ? 'green' : 'secondary';
+            
+            const colorMap = {
+                'comandante': 'red',
+                'oficial': 'blue',
+                'bombero': 'green',
+                'administrativo': 'purple',
+                'ciudadano': 'orange'
+            };
+            
+            const roleMap = {
+                'comandante': 'Comandante',
+                'oficial': 'Oficial',
+                'bombero': 'Bombero',
+                'administrativo': 'Personal Administrativo',
+                'ciudadano': 'Ciudadano'
+            };
+            
+            const colorClass = colorMap[rol] || 'secondary';
+            const roleName = roleMap[rol] || 'Usuario';
+            
             modal.innerHTML = `
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header border-0">
                             <h5 class="modal-title">
                                 <i class="fas fa-user-shield me-2 text-${colorClass}-600"></i>
-                                Acceso como ${rol}
+                                Acceso como ${roleName}
                             </h5>
-                            <button type="button" class="btn-close" onclick="cerrarModal()"></button>
+                            <button type="button" class="btn-close" onclick="cerrarTransicion()"></button>
                         </div>
                         <div class="modal-body text-center py-4">
                             <div class="mb-4">
                                 <i class="fas fa-fire-extinguisher fa-4x text-${colorClass}-500 mb-3"></i>
-                                <h4>Acceso al Sistema</h4>
-                                <p class="text-muted">Conectando con ${pageMap[tipo]}...</p>
+                                <h4>Redireccionando</h4>
+                                <p class="text-muted">Accediendo a login como ${roleName}...</p>
                             </div>
                             <div class="spinner-border text-${colorClass}-500" role="status">
                                 <span class="visually-hidden">Cargando...</span>
@@ -623,27 +641,25 @@
                 </div>
             `;
 
-            // Añadir y centrar
+            // Añadir modal al DOM
             document.body.appendChild(modal);
 
-            // Redirigir después de un breve retardo
-            const destino = pageMap[tipo] || 'index.php';
+            // Redirigir al login después de un breve retardo
             setTimeout(() => {
-                cerrarModal();
-                // Navegar a la página del actor
-                window.location.href = destino;
+                cerrarTransicion();
+                window.location.href = 'login.php?rol=' + encodeURIComponent(rol);
             }, 800);
         }
 
         // Eliminar modal si existe
-        function cerrarModal() {
-            const modal = document.getElementById('accesoModal') || document.querySelector('.modal');
+        function cerrarTransicion() {
+            const modal = document.getElementById('transicionModal') || document.querySelector('.modal');
             if (modal) modal.remove();
         }
 
         // Cerrar modal con ESC
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') cerrarModal();
+            if (e.key === 'Escape') cerrarTransicion();
         });
     </script>
 </body>

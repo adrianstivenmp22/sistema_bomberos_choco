@@ -313,87 +313,147 @@
                 password: '1234',
                 nombre: 'Comandante García',
                 rol: 'comandante',
-                redirect: 'comandante.html'
+                redirect: 'comandante.php'
             },
             'oficial': {
                 password: '1234',
                 nombre: 'Oficial Martínez',
                 rol: 'oficial',
-                redirect: 'oficial.html'
+                redirect: 'oficial.php'
             },
             'bombero': {
                 password: '1234',
                 nombre: 'Bombero Pérez',
                 rol: 'bombero',
-                redirect: 'bombero.html'
+                redirect: 'bombero.php'
             },
             'ciudadano': {
                 password: '1234',
                 nombre: 'Ciudadano',
                 rol: 'ciudadano',
-                redirect: 'ciudadano.html'
+                redirect: 'ciudadano.php'
+            },
+            'administrativo': {
+                password: '1234',
+                nombre: 'Personal Administrativo',
+                rol: 'administrativo',
+                redirect: 'administrativo.php'
             }
         };
 
         // Variables globales
         let rolSeleccionado = 'comandante';
 
+        // Obtener el rol desde URL si existe
+        function obtenerRolDeUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const rolUrl = urlParams.get('rol');
+            if (rolUrl && usuarios[rolUrl]) {
+                return rolUrl;
+            }
+            return 'comandante';
+        }
+
+        // Inicializar el rol al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            rolSeleccionado = obtenerRolDeUrl();
+            
+            // Auto-seleccionar el rol de la URL
+            document.querySelectorAll('.role-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-role') === rolSeleccionado) {
+                    option.classList.add('active');
+                }
+            });
+            
+            // Auto-cargar credenciales si hay rol en URL
+            if (window.location.search.includes('rol=')) {
+                autoCompletarCredenciales(rolSeleccionado);
+            }
+        });
+
         // Selección de rol
-        document.querySelectorAll('.role-option').forEach(option => {
-            option.addEventListener('click', function() {
-                // Remover clase active de todos
-                document.querySelectorAll('.role-option').forEach(opt => {
-                    opt.classList.remove('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.role-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remover clase active de todos
+                    document.querySelectorAll('.role-option').forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    
+                    // Agregar clase active al seleccionado
+                    this.classList.add('active');
+                    
+                    // Actualizar rol seleccionado
+                    rolSeleccionado = this.getAttribute('data-role');
+                    
+                    // Actualizar placeholder sugerido
+                    const usernameInput = document.getElementById('username');
+                    usernameInput.placeholder = `Usuario ${this.querySelector('.role-name').textContent.toLowerCase()}`;
+                    
+                    // Mostrar mensaje informativo
+                    mostrarAlerta(`Rol cambiado a: ${this.querySelector('.role-name').textContent}`, 'info');
                 });
-                
-                // Agregar clase active al seleccionado
-                this.classList.add('active');
-                
-                // Actualizar rol seleccionado
-                rolSeleccionado = this.getAttribute('data-role');
-                
-                // Actualizar placeholder sugerido
-                const usernameInput = document.getElementById('username');
-                usernameInput.placeholder = `Usuario ${this.querySelector('.role-name').textContent.toLowerCase()}`;
-                
-                // Mostrar mensaje informativo
-                mostrarAlerta(`Rol cambiado a: ${this.querySelector('.role-name').textContent}`, 'info');
             });
         });
 
         // Manejo del formulario de login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            
-            // Validar campos vacíos
-            if (!username || !password) {
-                mostrarAlerta('Por favor, complete todos los campos', 'error');
-                return;
-            }
-            
-            // Verificar credenciales
-            const usuario = usuarios[username.toLowerCase()];
-            
-            if (!usuario) {
-                mostrarAlerta('Usuario no encontrado', 'error');
-                return;
-            }
-            
-            if (usuario.password !== password) {
-                mostrarAlerta('Contraseña incorrecta', 'error');
-                return;
-            }
-            
-            if (usuario.rol !== rolSeleccionado) {
-                mostrarAlerta(`Este usuario no tiene permisos de ${rolSeleccionado}`, 'error');
-                return;
-            }
-            
-            // Login exitoso
-            loginExitoso(usuario);
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value;
+                
+                // Validar campos vacíos
+                if (!username || !password) {
+                    mostrarAlerta('Por favor, complete todos los campos', 'error');
+                    return;
+                }
+                
+                // Mostrar loading
+                const submitBtn = document.querySelector('.btn-login');
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Verificando...';
+                submitBtn.disabled = true;
+                
+                // Enviar datos al servidor
+                fetch('proceso_login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&rol=${encodeURIComponent(rolSeleccionado)}`
+                })
+                .then(response => {
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
+                    
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message || 'Error en la autenticación');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        mostrarAlerta(`¡Bienvenido, ${data.usuario.nombre}!`, 'info');
+                        
+                        // Redirigir después de 1.5 segundos
+                        setTimeout(() => {
+                            window.location.href = data.redirect;
+                        }, 1500);
+                    } else {
+                        mostrarAlerta(data.message || 'Error en la autenticación', 'error');
+                    }
+                })
+                .catch(error => {
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
+                    mostrarAlerta(error.message || 'Error de conexión', 'error');
+                });
+            });
         });
 
         // Función para mostrar alertas
@@ -415,34 +475,6 @@
             setTimeout(() => {
                 alertContainer.innerHTML = '';
             }, 5000);
-        }
-
-        // Función para login exitoso
-        function loginExitoso(usuario) {
-            // Mostrar loading
-            const submitBtn = document.querySelector('.btn-login');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Iniciando sesión...';
-            submitBtn.disabled = true;
-            
-            // Simular proceso de autenticación
-            setTimeout(() => {
-                // Guardar datos de sesión (en un sistema real sería más seguro)
-                sessionStorage.setItem('usuarioLogueado', JSON.stringify({
-                    username: usuario.nombre,
-                    rol: usuario.rol,
-                    timestamp: new Date().toISOString()
-                }));
-                
-                // Mostrar mensaje de éxito
-                mostrarAlerta(`¡Bienvenido, ${usuario.nombre}!`, 'info');
-                
-                // Redirigir después de 1.5 segundos
-                setTimeout(() => {
-                    window.location.href = usuario.redirect;
-                }, 1500);
-                
-            }, 1000);
         }
 
         // Auto-completar credenciales para testing

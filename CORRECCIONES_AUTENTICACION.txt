@@ -1,0 +1,68 @@
+CORRECCIONES REALIZADAS - SISTEMA DE AUTENTICACIÓN
+=====================================================
+
+PROBLEMA IDENTIFICADO:
+- El login.php guardaba datos en sessionStorage (JavaScript)
+- Las páginas esperaban $_SESSION['usuario'] (PHP)
+- Esto causaba que no se pudiera acceder a las páginas del usuario
+
+SOLUCIÓN IMPLEMENTADA:
+
+1. ARCHIVO NUEVO: proceso_login.php
+   - Procesa la autenticación en el servidor
+   - Crea $_SESSION['usuario'] con los datos correctos
+   - Retorna JSON con la redirección correcta
+   - Coordina con el servidor directamente
+
+2. ACTUALIZACIÓN: login.php
+   - Cambiado a usar AJAX/Fetch para enviar credenciales
+   - Comunica con proceso_login.php
+   - Espera respuesta JSON del servidor
+   - Redirige a la página correcta basada en la respuesta
+
+3. ARCHIVO NUEVO: logout.php
+   - Destruye la sesión
+   - Redirige a index.php
+
+FLUJO DE AUTENTICACIÓN ACTUALIZADO:
+===================================
+
+Usuario abre index.php
+    ↓
+Elige rol y presiona botón de acceso
+    ↓
+Se abre modal de transición
+    ↓
+Redirige a login.php?rol=XXXX
+    ↓
+login.php auto-selecciona el rol y precarga credenciales
+    ↓
+Usuario presiona "Iniciar Sesión"
+    ↓
+login.php envía AJAX a proceso_login.php
+    ↓
+proceso_login.php valida credenciales
+    ↓
+Si es correcto: Crea $_SESSION['usuario'] y retorna {"redirect": "pagina.php"}
+    ↓
+login.php redirige a window.location.href = data.redirect
+    ↓
+Usuario ve la página de su rol (comandante.php, oficial.php, etc)
+
+
+CREDENCIALES DE PRUEBA:
+=======================
+Usuario: comandante    | Contraseña: 1234 | Rol: comandante
+Usuario: oficial       | Contraseña: 1234 | Rol: oficial
+Usuario: bombero       | Contraseña: 1234 | Rol: bombero
+Usuario: ciudadano     | Contraseña: 1234 | Rol: ciudadano
+Usuario: administrativo| Contraseña: 1234 | Rol: administrativo
+
+
+AHORA PUEDES:
+=============
+✅ Ir a http://localhost/sistema_bomberos_choco/
+✅ Seleccionar un rol en los botones
+✅ Iniciar sesión automáticamente
+✅ Ser redirigido a la página correcta del rol
+✅ Navegar sin problemas dentro de la aplicación
